@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>在线订阅转换</title>
+<meta name="description" content="在线订阅转换工具：把订阅链接转换成小火箭 Shadowrocket、Clash、sing-box、Surge 等客户端格式，支持 VLESS、Hysteria2、TUIC、Reality 等最新协议。">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 24px 12px 40px; background: #f5f7fa; color: #303133;
+         font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; }
+  .wrap { max-width: 720px; margin: 0 auto; }
+  h1 { font-size: 24px; text-align: center; margin: 8px 0 4px; font-weight: 600; }
+  .sub { text-align: center; color: #909399; font-size: 13px; margin: 0 0 14px; }
+  .tg { text-align: center; margin-bottom: 18px; }
+  .tg a { display: inline-block; padding: 6px 16px; border: 1px solid #409eff; color: #409eff;
+          border-radius: 4px; text-decoration: none; font-size: 13px; background: #fff; }
+  .tg a:hover { background: #ecf5ff; }
+  .card { background: #fff; border: 1px solid #e4e7ed; border-radius: 8px; padding: 22px 22px 8px; }
+  .row { display: flex; align-items: flex-start; margin-bottom: 16px; }
+  .row > label { width: 92px; flex: none; padding-top: 8px; font-size: 14px; color: #606266; }
+  .row .field { flex: 1; min-width: 0; }
+  input[type="text"], select, textarea {
+    width: 100%; padding: 8px 10px; border: 1px solid #dcdfe6; border-radius: 4px;
+    font-size: 14px; color: #303133; background: #fff; outline: none; }
+  input[type="text"]:focus, select:focus, textarea:focus { border-color: #409eff; }
+  textarea { resize: vertical; min-height: 76px; line-height: 1.5; }
+  .custom { margin-top: 8px; display: none; }
+  .radio label, .checks label { font-size: 14px; color: #606266; margin-right: 16px; cursor: pointer; line-height: 32px; }
+  .checks label { margin-right: 12px; line-height: 28px; white-space: nowrap; }
+  .checks { display: flex; flex-wrap: wrap; }
+  .gen { text-align: center; margin: 4px 0 18px; }
+  button { cursor: pointer; border-radius: 4px; font-size: 14px; }
+  .btn-primary { background: #409eff; border: 1px solid #409eff; color: #fff; padding: 10px 34px; }
+  .btn-primary:hover { background: #66b1ff; border-color: #66b1ff; }
+  .btn-plain { background: #fff; border: 1px solid #dcdfe6; color: #606266; padding: 8px 14px; flex: none; margin-left: 8px; }
+  .btn-plain:hover { color: #409eff; border-color: #c6e2ff; background: #ecf5ff; }
+  .out { display: flex; align-items: center; }
+  .out input { flex: 1; min-width: 0; }
+  .hint { font-size: 12px; color: #c0c4cc; margin-top: 4px; }
+  .foot { text-align: center; color: #909399; font-size: 12px; margin-top: 18px; line-height: 1.9; }
+  .foot a { color: #409eff; text-decoration: none; }
+  @media (max-width: 560px) {
+    .row { flex-direction: column; }
+    .row > label { width: auto; padding: 0 0 6px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>在线订阅转换</h1>
+  <p class="sub">将订阅链接转换为各客户端专用格式</p>
+  <div class="tg"><a href="https://t.me/+yGM41xlVN9ZjMGNl" target="_blank" rel="noopener">加入 Telegram 频道</a></div>
+
+  <div class="card">
+    <div class="row">
+      <label>模式设置</label>
+      <div class="field radio">
+        <label><input type="radio" name="mode" value="basic" checked> 基础模式</label>
+        <label><input type="radio" name="mode" value="advanced"> 进阶模式</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <label>订阅链接</label>
+      <div class="field">
+        <textarea id="url" placeholder="支持多个订阅链接，每行一个"></textarea>
+      </div>
+    </div>
+
+    <div class="row">
+      <label>客户端</label>
+      <div class="field">
+        <select id="target">
+          <option value="shadowrocket" selected>小火箭 Shadowrocket</option>
+          <option value="clash">Clash / Mihomo</option>
+          <option value="sing-box">sing-box</option>
+          <option value="surge">Surge</option>
+          <option value="quanx">Quantumult X</option>
+          <option value="loon">Loon</option>
+          <option value="surfboard">Surfboard</option>
+          <option value="mellow">Mellow</option>
+          <option value="v2ray">V2Ray</option>
+          <option value="trojan">Trojan</option>
+          <option value="ss">Shadowsocks</option>
+          <option value="sssub">SS 订阅</option>
+          <option value="ssr">SSR</option>
+          <option value="clashr">ClashR</option>
+          <option value="mixed">混合订阅</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <label>后端地址</label>
+      <div class="field">
+        <select id="backend">
+          <option value="https://api.wcc.best" selected>https://api.wcc.best</option>
+          <option value="https://api.dler.io">https://api.dler.io</option>
+          <option value="https://api.tsutsu.one">https://api.tsutsu.one</option>
+          <option value="custom">自定义后端</option>
+        </select>
+        <input type="text" id="backendCustom" class="custom" placeholder="例如 https://your-backend.example.com">
+        <div class="hint">公共后端由第三方提供，介意者可填自建 subconverter 后端地址。</div>
+      </div>
+    </div>
+
+    <div class="row">
+      <label>远程配置</label>
+      <div class="field">
+        <select id="config">
+          <option value="https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online.ini" selected>ACL4SSR_Online（默认）</option>
+          <option value="https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Full.ini">ACL4SSR_Online_Full（全分组）</option>
+          <option value="https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_Mini.ini">ACL4SSR_Online_Mini（精简）</option>
+          <option value="https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_MultiCountry.ini">ACL4SSR_Online_MultiCountry（多国分组）</option>
+          <option value="https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_NoAuto.ini">ACL4SSR_Online_NoAuto（无自动测速）</option>
+          <option value="https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/config/ACL4SSR_Online_AdblockPlus.ini">ACL4SSR_Online_AdblockPlus（去广告）</option>
+          <option value="none">不使用远程配置</option>
+          <option value="custom">自定义配置</option>
+        </select>
+        <input type="text" id="configCustom" class="custom" placeholder="填入远程配置文件的 URL">
+      </div>
+    </div>
+
+    <div id="advanced" style="display:none">
+      <div class="row">
+        <label>包含节点</label>
+        <div class="field"><input type="text" id="include" placeholder="正则表达式，只包含匹配的节点"></div>
+      </div>
+      <div class="row">
+        <label>排除节点</label>
+        <div class="field"><input type="text" id="exclude" placeholder="正则表达式，排除匹配的节点"></div>
+      </div>
+      <div class="row">
+        <label>输出文件名</label>
+        <div class="field"><input type="text" id="filename" placeholder="例如 mysub"></div>
+      </div>
+      <div class="row">
+        <label>高级选项</label>
+        <div class="field checks">
+          <label><input type="checkbox" id="optEmoji" checked> 节点 Emoji</label>
+          <label><input type="checkbox" id="optList"> 输出为 Node List</label>
+          <label><input type="checkbox" id="optUdp"> UDP</label>
+          <label><input type="checkbox" id="optXudp"> XUDP</label>
+          <label><input type="checkbox" id="optTfo"> TFO</label>
+          <label><input type="checkbox" id="optTls13"> TLS 1.3</label>
+          <label><input type="checkbox" id="optScv"> 跳过证书验证</label>
+          <label><input type="checkbox" id="optSort"> 节点排序</label>
+          <label><input type="checkbox" id="optInsert"> 插入节点</label>
+          <label><input type="checkbox" id="optExpand"> 展开节点</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="gen"><button class="btn-primary" id="generate">生成订阅链接</button></div>
+
+    <div class="row">
+      <label>定制订阅</label>
+      <div class="field out">
+        <input type="text" id="output" readonly placeholder="点击上方按钮生成">
+        <button class="btn-plain" id="copyOut">复制</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <label>订阅短链</label>
+      <div class="field out">
+        <input type="text" id="shortOut" readonly placeholder="生成订阅链接后可再生成短链">
+        <button class="btn-plain" id="makeShort">生成短链</button>
+        <button class="btn-plain" id="copyShort">复制</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    支持协议：VLESS / VMess / Trojan / Hysteria2 / TUIC / Reality / Shadowsocks / SSR / WireGuard<br>
+    <a href="https://t.me/+yGM41xlVN9ZjMGNl" target="_blank" rel="noopener">Telegram 频道</a>
+  </div>
+</div>
+
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+
+  // 模式切换
+  function applyMode() {
+    var adv = document.querySelector('input[name="mode"]:checked').value === 'advanced';
+    $('advanced').style.display = adv ? '' : 'none';
+  }
+  document.querySelectorAll('input[name="mode"]').forEach(function (r) {
+    r.addEventListener('change', function () { applyMode(); save(); });
+  });
+
+  // 自定义输入框显隐
+  function applyCustom() {
+    $('backendCustom').style.display = $('backend').value === 'custom' ? 'block' : 'none';
+    $('configCustom').style.display = $('config').value === 'custom' ? 'block' : 'none';
+  }
+  $('backend').addEventListener('change', function () { applyCustom(); save(); });
+  $('config').addEventListener('change', function () { applyCustom(); save(); });
+  $('target').addEventListener('change', save);
+
+  // 记住设置
+  function save() {
+    try {
+      localStorage.setItem('subconv', JSON.stringify({
+        target: $('target').value,
+        backend: $('backend').value,
+        backendCustom: $('backendCustom').value,
+        config: $('config').value,
+        configCustom: $('configCustom').value,
+        mode: document.querySelector('input[name="mode"]:checked').value
+      }));
+    } catch (e) {}
+  }
+  ['backendCustom', 'configCustom'].forEach(function (id) { $(id).addEventListener('input', save); });
+  (function load() {
+    try {
+      var s = JSON.parse(localStorage.getItem('subconv') || 'null');
+      if (!s) return;
+      if (s.target) $('target').value = s.target;
+      if (s.backend) $('backend').value = s.backend;
+      if (s.backendCustom) $('backendCustom').value = s.backendCustom;
+      if (s.config) $('config').value = s.config;
+      if (s.configCustom) $('configCustom').value = s.configCustom;
+      if (s.mode) {
+        document.querySelectorAll('input[name="mode"]').forEach(function (r) { r.checked = r.value === s.mode; });
+      }
+    } catch (e) {}
+    applyMode(); applyCustom();
+  })();
+
+  function buildUrl() {
+    var lines = $('url').value.split('\n').map(function (s) { return s.trim(); }).filter(Boolean);
+    if (!lines.length) { alert('请先填入订阅链接'); return ''; }
+    var backend = $('backend').value === 'custom' ? $('backendCustom').value.trim() : $('backend').value;
+    if (!backend) { alert('请填入后端地址'); return ''; }
+    backend = backend.replace(/\/+$/, '');
+    var target = $('target').value;
+    var params = ['target=' + encodeURIComponent(target)];
+    if (target === 'surge') params.push('ver=5');
+    params.push('url=' + encodeURIComponent(lines.join('|')));
+    var cfg = $('config').value;
+    if (cfg === 'custom') cfg = $('configCustom').value.trim();
+    if (cfg && cfg !== 'none') params.push('config=' + encodeURIComponent(cfg));
+    var adv = document.querySelector('input[name="mode"]:checked').value === 'advanced';
+    if (adv) {
+      if ($('include').value.trim()) params.push('include=' + encodeURIComponent($('include').value.trim()));
+      if ($('exclude').value.trim()) params.push('exclude=' + encodeURIComponent($('exclude').value.trim()));
+      if ($('filename').value.trim()) params.push('filename=' + encodeURIComponent($('filename').value.trim()));
+      var opts = [['optEmoji', 'emoji'], ['optList', 'list'], ['optUdp', 'udp'], ['optXudp', 'xudp'],
+                  ['optTfo', 'tfo'], ['optTls13', 'tls13'], ['optScv', 'scv'], ['optSort', 'sort'],
+                  ['optInsert', 'insert'], ['optExpand', 'expand']];
+      opts.forEach(function (p) { if ($(p[0]).checked) params.push(p[1] + '=true'); });
+    } else {
+      params.push('emoji=true');
+    }
+    return backend + '/sub?' + params.join('&');
+  }
+
+  $('generate').addEventListener('click', function () {
+    var u = buildUrl();
+    if (u) { $('output').value = u; $('shortOut').value = ''; }
+  });
+
+  function copy(id) {
+    var el = $(id);
+    if (!el.value) return;
+    el.select(); el.setSelectionRange(0, el.value.length);
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(el.value).then(function () { alert('已复制'); }, function () {
+        document.execCommand('copy'); alert('已复制');
+      });
+    } else { document.execCommand('copy'); alert('已复制'); }
+  }
+  $('copyOut').addEventListener('click', function () { copy('output'); });
+  $('copyShort').addEventListener('click', function () { copy('shortOut'); });
+
+  $('makeShort').addEventListener('click', function () {
+    var u = $('output').value;
+    if (!u) { alert('请先生成订阅链接'); return; }
+    $('shortOut').value = '生成中…';
+    fetch('https://is.gd/create.php?format=simple&url=' + encodeURIComponent(u))
+      .then(function (r) { return r.text(); })
+      .then(function (t) {
+        t = (t || '').trim();
+        if (/^https?:\/\//.test(t)) { $('shortOut').value = t; }
+        else { $('shortOut').value = ''; alert('短链生成失败，请直接使用上方长链接'); }
+      })
+      .catch(function () { $('shortOut').value = ''; alert('短链生成失败，请直接使用上方长链接'); });
+  });
+})();
+</script>
+</body>
+</html>
