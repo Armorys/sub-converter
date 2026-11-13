@@ -12,11 +12,13 @@
   .wrap { max-width: 720px; margin: 0 auto; }
   h1 { font-size: 24px; text-align: center; margin: 8px 0 4px; font-weight: 600; }
   .sub { text-align: center; color: #909399; font-size: 13px; margin: 0 0 14px; }
-  .tg { text-align: center; margin-bottom: 18px; }
-  .tg a { display: inline-block; padding: 6px 16px; border: 1px solid #409eff; color: #409eff;
-          border-radius: 4px; text-decoration: none; font-size: 13px; background: #fff; }
-  .tg a:hover { background: #ecf5ff; }
-  .card { background: #fff; border: 1px solid #e4e7ed; border-radius: 8px; padding: 22px 22px 8px; }
+  .social { display: flex; justify-content: center; gap: 12px; margin-bottom: 18px; }
+  .social a { width: 40px; height: 40px; border-radius: 50%; background: #fff; border: 1px solid #e4e7ed;
+              display: flex; align-items: center; justify-content: center; transition: all .15s; }
+  .social a:hover { border-color: #409eff; box-shadow: 0 2px 8px rgba(64,158,255,.25); transform: translateY(-1px); }
+  .social img { width: 20px; height: 20px; display: block; }
+  .card { background: #fff; border: 1px solid #e4e7ed; border-radius: 8px; padding: 22px 22px 8px;
+          box-shadow: 0 2px 12px rgba(0,0,0,.05); }
   .row { display: flex; align-items: flex-start; margin-bottom: 16px; }
   .row > label { width: 92px; flex: none; padding-top: 8px; font-size: 14px; color: #606266; }
   .row .field { flex: 1; min-width: 0; }
@@ -40,9 +42,17 @@
   .hint { font-size: 12px; color: #c0c4cc; margin-top: 4px; }
   .foot { text-align: center; color: #909399; font-size: 12px; margin-top: 18px; line-height: 1.9; }
   .foot a { color: #409eff; text-decoration: none; }
-  @media (max-width: 560px) {
-    .row { flex-direction: column; }
+  @media (max-width: 640px) {
+    body { padding: 16px 10px 32px; }
+    h1 { font-size: 21px; }
+    .card { padding: 18px 14px 4px; }
+    .row { flex-direction: column; margin-bottom: 14px; }
     .row > label { width: auto; padding: 0 0 6px; }
+    input[type="text"], select, textarea { font-size: 16px; }
+    .btn-primary { width: 100%; padding: 11px 0; }
+    .out { flex-wrap: wrap; }
+    .out input { flex: 1 1 100%; }
+    .out .btn-plain { margin: 8px 8px 0 0; }
   }
 </style>
 </head>
@@ -50,7 +60,10 @@
 <div class="wrap">
   <h1>在线订阅转换</h1>
   <p class="sub">将订阅链接转换为各客户端专用格式</p>
-  <div class="tg"><a href="https://t.me/+yGM41xlVN9ZjMGNl" target="_blank" rel="noopener">加入 Telegram 频道</a></div>
+  <div class="social">
+    <a href="https://github.com/Armorys/sub-converter" target="_blank" rel="noopener" title="GitHub 仓库" aria-label="GitHub 仓库"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/github.svg" alt="GitHub"></a>
+    <a href="https://t.me/+yGM41xlVN9ZjMGNl" target="_blank" rel="noopener" title="Telegram 频道" aria-label="Telegram 频道"><img src="https://cdn.jsdelivr.net/npm/simple-icons@v13/icons/telegram.svg" alt="Telegram"></a>
+  </div>
 
   <div class="card">
     <div class="row">
@@ -173,8 +186,7 @@
   </div>
 
   <div class="foot">
-    支持协议：VLESS / VMess / Trojan / Hysteria2 / TUIC / Reality / Shadowsocks / SSR / WireGuard<br>
-    <a href="https://t.me/+yGM41xlVN9ZjMGNl" target="_blank" rel="noopener">Telegram 频道</a>
+    支持协议：VLESS / VMess / Trojan / Hysteria2 / TUIC / Reality / Shadowsocks / SSR / WireGuard
   </div>
 </div>
 
